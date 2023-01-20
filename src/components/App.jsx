@@ -5,13 +5,13 @@ import { Report } from 'notiflix/build/notiflix-report-aio';
 import { Section } from "./Section/Section";
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from "./ContactList/ContactList";
-import Filter from "./Filter/Filter";
+import { Filter } from "./Filter/Filter";
 
 export const App = () => {
-  const [contacts, setContacts] = useState([{ id: nanoid(), name: 'Rosie Simpson', number: '459-12-56' },
-  { id: nanoid(), name: 'Hermione Kline', number: '443-89-12' },
-  { id: nanoid(), name: 'Eden Clements', number: '645-17-79' },
-  { id: nanoid(), name: 'Annie Copeland', number: '227-91-26' },]);
+  const [contacts, setContacts] = useState([ { id: nanoid(), name: 'Rosie Simpson', number: '459-12-56' },
+      { id: nanoid(), name: 'Hermione Kline', number: '443-89-12' },
+      { id: nanoid(), name: 'Eden Clements', number: '645-17-79' },
+      { id: nanoid(), name: 'Annie Copeland', number: '227-91-26' },]);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
@@ -22,18 +22,8 @@ export const App = () => {
     }
   }, []);
 
-  //  componentDidUpdate(prevState) {
-  //   const nextContacts = this.state.contacts;
-  //   const prevContacts = prevState.contacts;
-
-  //   if (nextContacts !== prevContacts) {
-  //     localStorage.setItem('contacts', JSON.stringify(nextContacts));
-  //   }
-  // };
-
   const addContact = event => {
     event.preventDefault();
-
     const form = event.target;
     const { name, number } = form.elements;
 
@@ -68,16 +58,6 @@ export const App = () => {
     setFilter(event.target.value);
   };
   
-//  const visibleContact = () => {
-//     const { filter, contacts } = this.state;
-//     const normalizeFilter = filter.toLowerCase();
-
-  //   return contacts.filter(contact => contact.name.toLowerCase().includes(normalizeFilter));
-  // }
-
-  // render() {
-  //   const { filter, contacts } = this.state;
-  //   const filterContact = this.visibleContact();
   return (
     <>
       <Section title="Phonebook">
@@ -85,10 +65,7 @@ export const App = () => {
       </Section>
       <Section title="Contacts">
           <Filter value={filter} inputFilter={inputFilter} />
-        {contacts.length > 0 ?
-          (<ContactList contacts={contacts} deleteContact={deleteContact} />) : (Report.info('Phonebook Info', 'Contact book is empty!',
-            'Okay',
-          ))}
+        <ContactList contacts={contacts} deleteContact={deleteContact} filter={filter} />
       </Section>
     </>
   );
